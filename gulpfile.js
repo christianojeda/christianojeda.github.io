@@ -22,37 +22,33 @@ var	targetCss = 'css',
 	targetAssets = 'assets';
 
 /*================================
-	SE TRANSFORMA DE SASS Y SE
-	CONCATENAN TODOS A UN SOLO CSS
+	SE CONCATENAN TODOS A UN SOLO CSS
 ================================*/
-gulp.task('sass-to-css', ['limpiardev'], function(){
-  gulp.src('css/**/*.css')
-  	// .pipe(sourcemaps.init({loadMaps: true}))
-	// .pipe(sass())
-	.pipe(concat('finalcss.css'))
-	// .pipe(sourcemaps.write('.'))
-	.pipe(gulp.dest('prod/'))
-	.pipe(browserSync.stream());
-});
+// gulp.task('concat-css', ['limpiarprod'], function(){
+//   gulp.src(['css/**/*.css', 'css/**/*.min.css'])
+// 	.pipe(concat('finalcss.css'))
+// 	.pipe(gulp.dest('dev/'))
+// 	.pipe(browserSync.stream());
+// });
 
 /*================================
 	SE PASA CONCATENAN LOS JS EN 
 	UN SOLO ARCHIVO
 ================================*/
-gulp.task('concat-js', ['limpiardev'], function () {
-  gulp.src('js/**/*.js')
-  .pipe(concat('finaljs.js'))
-  .pipe(gulp.dest('dev/'))
-  .pipe(browserSync.stream());
-});
+// gulp.task('concat-js', ['limpiarprod'], function () {
+//   gulp.src(['!./js/jquery.js', 'js/**/*.js', 'js/**/*.min.js'])
+//   .pipe(concat('finaljs.js'))
+//   .pipe(gulp.dest('dev/'))
+//   .pipe(browserSync.stream());
+// });
 
 
 
 /*================================
 	SE MINIFICA EL JS EN PROD
 ================================*/
-gulp.task('minjs', ['limpiarprod'], function () {
-  gulp.src('js/**/*.js')
+gulp.task('minjs', ['limpiardev'], function () {
+  gulp.src('js/**/*')
   .pipe(concat('finaljs.min.js'))
   .pipe(uglify())
   .pipe(gulp.dest('prod/'))
@@ -61,7 +57,7 @@ gulp.task('minjs', ['limpiarprod'], function () {
 /*================================
 	SE MINIFICA EL CSS EN PROD
 ================================*/
-gulp.task('mincss', ['limpiarprod'], function() {
+gulp.task('mincss', ['limpiardev'], function() {
 	gulp.src('css/**/*.css')
 		.pipe(minifyCSS())
 		.pipe(rename({suffix: '.min'}))
@@ -72,12 +68,12 @@ gulp.task('mincss', ['limpiarprod'], function() {
 /*================================
 	SE LIMPIA TODO LO DE PRODUCCIÓN
 ================================*/
-gulp.task('limpiarprod', function() {
-	gulp.src(['!./js/jquery-3.2.1.js', targetCss + '**/*.css', targetJs + '**/*.js', targetFont + '/*'], {read:false})
+gulp.task('limpiardev', function() {
+	gulp.src([targetCss + '**/*.css', targetJs + '**/*.js', targetFont + '/**/*'], {read:false})
 	.pipe(clean());
 });
 
-gulp.task('limpiardev', function() {
+gulp.task('limpiarprod', function() {
 	gulp.src(['prod/**/*'], {read:false})
 	.pipe(clean());
 });
@@ -88,22 +84,22 @@ gulp.task('limpiardev', function() {
 	PARA VER CAMBIOS EN VIVO AMEKE
 ================================*/
 gulp.task('watch', ['connect'], function() {
-	gulp.watch('assets/**/*.scss', ['sass-to-css']);
-	gulp.watch('assets/js/**/*.js', ['concat-js']);
+	gulp.watch('css/**/*.css');
+	gulp.watch('js/**/*.js');
 });
 
 
 gulp.task('connect', function() {
 	browserSync({
-		proxy: "localhost:8888/induccion-php",
-		files: ["**/*.php"]
+		proxy: "localhost:8888/christianojeda.github.io",
+		files: ["**/*.html"]
 	});
 });
 
 /*================================
 	SE INICIA EL MODO DEVELOPER
 ================================*/
-gulp.task('dev', ['sass-to-css', 'concat-js', 'watch']);
+gulp.task('dev', ['watch']);
 
 
 /*================================
