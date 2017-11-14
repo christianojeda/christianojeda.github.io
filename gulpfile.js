@@ -84,15 +84,15 @@ gulp.task('limpiarprod', function() {
 	PARA VER CAMBIOS EN VIVO AMEKE
 ================================*/
 gulp.task('watch', ['connect'], function() {
-	gulp.watch('css/**/*.css');
-	gulp.watch('js/**/*.js');
+	gulp.watch('css/**/*');
+	gulp.watch('js/**/*');
 });
 
 
 gulp.task('connect', function() {
 	browserSync({
 		proxy: "localhost:8888/christianojeda.github.io",
-		files: ["**/*.html"]
+		files: ["**/*.html", "**/*.css", "**/*.js"]
 	});
 });
 

@@ -250,6 +250,7 @@ p {
     float: left;
     overflow: hidden;
     margin-bottom: 20px;
+    max-height: 400px !important;
 }
 .iso-box > a {
     display: block;
